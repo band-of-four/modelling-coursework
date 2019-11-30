@@ -16,7 +16,9 @@
 		<ActiveObjectClass>
 			<Id>1574319728379</Id>
 			<Name><![CDATA[Main]]></Name>
-			<AdditionalClassCode><![CDATA[int teachersCount = 3;
+			<AdditionalClassCode><![CDATA[Random rand = new Random();
+
+int teachersCount = 3;
 int lessonsCount = 3;
 int currentLesson = 0;
 int succesfullyFinishedStudents = 0;
@@ -27,26 +29,38 @@ public int[] teachersCountArray = new int[] {
 
 teachers.set_capacity(teachersCountArray[0]);
 */
+
+// lab1, lab2, lab3, lab4
 public int[] studentsCountArray = new int[] {
-		25, 25, 25, 25
+	25, 15, 10, 5
 };
-		
+public int[] remainingStudentsArray = studentsCountArray.clone();
+public double[] labsPassingMean = new double[] {
+	10.0, 20.0, 25.0, 30.0
+};
+public double[] labsSuccesfullPassingProp = new double[] {
+	0.8, 0.60, 0.5, 0.4
+};
+
 int getNextStudentLabNumber() {
+	if (Arrays.stream(remainingStudentsArray).sum() == 0) return 0;
 	int labNum = new Random().nextInt(4);
-	while (studentsCountArray[labNum] == 0) {
+	while (remainingStudentsArray[labNum] == 0) {
 		labNum = new Random().nextInt(4);
 	}
+	remainingStudentsArray[labNum]--;	
 	return labNum;
 }
 
 void processStudent(Agent student) {
-	studentsCountArray[((Student)student).labNumber]--;
 	if (((Student)student).labNumber == 3) {
 		succesfullyFinishedStudents++;
+		studentsCountArray[((Student)student).labNumber]--;
 		studentsLabInfo.updateData();
 		update_succesfullyFinished();
 		return;
 	};
+	studentsCountArray[((Student)student).labNumber]--;
 	studentsCountArray[((Student)student).labNumber + 1]++;
 	studentsLabInfo.updateData();
 }
@@ -59,6 +73,7 @@ void restartLesson() {
 	releaseQueue();
 	releaseTeachers();
 	currentLesson++;
+	remainingStudentsArray = studentsCountArray.clone();
 	//teachers.set_capacity(teachersCountArray[currentLesson]);
 }
 
@@ -73,8 +88,15 @@ void releaseTeachers() {
 		teachers.remove(teachers.get(0));
 	}
 	teachers.resetStats();
+}
+
+double hyper() {
+	return (this.rand.nextDouble() > 0.19)
+		? exponential(1/20.46)
+		: exponential(1/10.63);
 }]]></AdditionalClassCode>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
+			<StartupCode><![CDATA[studentsLabInfo.updateData();]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1574319728377</Id>
@@ -189,46 +211,6 @@ void releaseTeachers() {
 					<ComputationDate>1575014400000</ComputationDate>
 				</Output>
 				<Output>
-					<Id>1575112675739</Id>
-					<Name><![CDATA[output]]></Name>
-					<X>450</X><Y>250</Y>
-					<Label><X>15</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Type><![CDATA[double]]></Type>
-					<UnitType><![CDATA[NONE]]></UnitType>
-					<Value Class="CodeValue">
-						<Code><![CDATA[studentsCountArray[0]]]></Code>
-					</Value>
-					<ComputationMoment>AT_MODEL_TIME</ComputationMoment>
-					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
-					</ComputationTimeCode>
-					<ComputationDate>1575187200000</ComputationDate>
-				</Output>
-				<Output>
-					<Id>1575117098912</Id>
-					<Name><![CDATA[output1]]></Name>
-					<X>350</X><Y>240</Y>
-					<Label><X>15</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Type><![CDATA[int]]></Type>
-					<UnitType><![CDATA[NONE]]></UnitType>
-					<Value Class="CodeValue">
-						<Code><![CDATA[currentLesson]]></Code>
-					</Value>
-					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
-					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
-					</ComputationTimeCode>
-					<ComputationDate>1575187200000</ComputationDate>
-				</Output>
-				<Output>
 					<Id>1575117883375</Id>
 					<Name><![CDATA[succesfullyFinished]]></Name>
 					<X>340</X><Y>280</Y>
@@ -240,6 +222,26 @@ void releaseTeachers() {
 					<UnitType><![CDATA[NONE]]></UnitType>
 					<Value Class="CodeValue">
 						<Code><![CDATA[succesfullyFinishedStudents]]></Code>
+					</Value>
+					<ComputationMoment>MANUALLY</ComputationMoment>
+					<ComputationTimeCode Class="CodeUnitValue">
+						<Code><![CDATA[]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</ComputationTimeCode>
+					<ComputationDate>1575187200000</ComputationDate>
+				</Output>
+				<Output>
+					<Id>1575122647438</Id>
+					<Name><![CDATA[currentStudentLab]]></Name>
+					<X>560</X><Y>140</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Type><![CDATA[double]]></Type>
+					<UnitType><![CDATA[NONE]]></UnitType>
+					<Value Class="CodeValue">
+						<Code><![CDATA[teachers.get(0).labNumber + 1]]></Code>
 					</Value>
 					<ComputationMoment>MANUALLY</ComputationMoment>
 					<ComputationTimeCode Class="CodeUnitValue">
@@ -317,9 +319,9 @@ void releaseTeachers() {
 					</Points>
 				</Connector>
 				<Connector>
-					<Id>1575114816647</Id>
+					<Id>1575121261309</Id>
 					<Name><![CDATA[connector2]]></Name>
-					<X>0</X><Y>0</Y>
+					<X>680</X><Y>50</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -337,6 +339,39 @@ void releaseTeachers() {
 					<TargetEmbeddedObjectReference>
 						<PackageName><![CDATA[pip3]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[selectOutput]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[SelectOutput]]></ClassName>
+						<ItemName><![CDATA[outT]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>-30</X><Y>0</Y></Point>
+					</Points>
+				</Connector>
+				<Connector>
+					<Id>1575121261310</Id>
+					<Name><![CDATA[connector3]]></Name>
+					<X>630</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[pip3]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[selectOutput]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[SelectOutput]]></ClassName>
+						<ItemName><![CDATA[in]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[pip3]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
 						<ItemName><![CDATA[teachers]]></ItemName>
 					</TargetEmbeddedObjectReference>
 					<TargetConnectableItemReference>
@@ -345,8 +380,44 @@ void releaseTeachers() {
 						<ItemName><![CDATA[out]]></ItemName>
 					</TargetConnectableItemReference>
 					<Points>
-						<Point><X>620</X><Y>50</Y></Point>
-						<Point><X>570</X><Y>50</Y></Point>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>-60</X><Y>0</Y></Point>
+					</Points>
+				</Connector>
+				<Connector>
+					<Id>1575121313820</Id>
+					<Name><![CDATA[connector4]]></Name>
+					<X>640</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[pip3]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[selectOutput]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[SelectOutput]]></ClassName>
+						<ItemName><![CDATA[outF]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[pip3]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[queue]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Queue]]></ClassName>
+						<ItemName><![CDATA[in]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>0</X><Y>20</Y></Point>
+						<Point><X>-220</X><Y>20</Y></Point>
+						<Point><X>-220</X><Y>0</Y></Point>
+						<Point><X>-200</X><Y>-10</Y></Point>
 					</Points>
 				</Connector>
 			</Connectors>
@@ -376,7 +447,7 @@ void releaseTeachers() {
 				<EmbeddedObject>
 					<Id>1574323913366</Id>
 					<Name><![CDATA[sink]]></Name>
-					<X>620</X><Y>40</Y>
+					<X>680</X><Y>40</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -484,13 +555,13 @@ processStudent(agent);]]></Code>
 						<Parameter>
 							<Name><![CDATA[agentsCount]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[Arrays.stream(studentsCountArray).sum();]]></Code>
+								<Code><![CDATA[Arrays.stream(studentsCountArray).sum()]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[Timeout]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[2000]]></Code>
+								<Code><![CDATA[150]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -575,17 +646,20 @@ processStudent(agent);]]></Code>
 						<Parameter>
 							<Name><![CDATA[queuing]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[self.QUEUING_PRIORITY]]></Code>
+								<Code><![CDATA[self.QUEUING_COMPARISON]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[priority]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[3 - agent.labNumber]]></Code>
+								<Code><![CDATA[agent.labNumber]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[comparison]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent1.labNumber > agent2.labNumber]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[enableTimeout]]></Name>
@@ -686,8 +760,8 @@ processStudent(agent);]]></Code>
 						<Parameter>
 							<Name><![CDATA[delayTime]]></Name>
 							<Value Class="CodeUnitValue">
-								<Code><![CDATA[100]]></Code>
-								<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+								<Code><![CDATA[exponential (1/labsPassingMean[agent.labNumber])]]></Code>
+								<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -713,6 +787,9 @@ processStudent(agent);]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[update_currentStudentLab()]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onAtExit]]></Name>
@@ -722,6 +799,90 @@ processStudent(agent);]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onRemove]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LatitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LatitudeCode>
+					<LongitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LongitudeCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1575121259181</Id>
+					<Name><![CDATA[selectOutput]]></Name>
+					<X>620</X><Y>40</Y>
+					<Label><X>-35</X><Y>-25</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[SelectOutput]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+							<ClassName><![CDATA[SelectOutput]]></ClassName>
+							<ItemName><![CDATA[1412336242931]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[conditionIsProbabilistic]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[condition]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[probability]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[labsSuccesfullPassingProp[agent.labNumber]]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onAtEnter]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onEnter]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExitTrue]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExitFalse]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -1646,6 +1807,10 @@ processStudent(agent);]]></Code>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[interarrivalTime]]></Name>
+							<Value Class="CodeUnitValue">
+								<Code><![CDATA[main.hyper()]]></Code>
+								<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[firstArrivalMode]]></Name>
@@ -2090,7 +2255,7 @@ processStudent(agent);]]></Code>
 							<Name><![CDATA[delayTime]]></Name>
 							<Value Class="CodeUnitValue">
 								<Code><![CDATA[this.Timeout]]></Code>
-								<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+								<Unit Class="TimeUnits"><![CDATA[MINUTE]]></Unit>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -2393,6 +2558,7 @@ processStudent(agent);]]></Code>
 							<Value Class="CodeValue">
 								<Code><![CDATA[main.restartLesson();
 this.agentsGenerated = 0;
+agentsCount = Arrays.stream(main.studentsCountArray).sum();
 source1.inject();]]></Code>
 							</Value>
 						</Parameter>
