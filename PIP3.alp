@@ -27,7 +27,7 @@
 
 int currentLesson = 0;
 public int succesfullyFinishedStudents = 0;
-double minUtil = 1.1;
+public double minUtil = 1.1;
 
 /*
 public int[] teachersCountArray = new int[] {
@@ -78,7 +78,6 @@ void processStudent(Agent student) {
 
 void restartLesson() {
 	if (currentLesson == lessonsCount) {
-		System.out.println(lessonsCount);
 		getEngine().finish();
 	}
 	double util = teachers.statsUtilization.mean();
@@ -4139,7 +4138,17 @@ source1.inject();]]></Code>
 						<Title><![CDATA[Dataset Title 1]]></Title>
 					<Expression><![CDATA[my_dataset1]]></Expression>
 					<Color>-4565549</Color>
-					<Expression2><![CDATA[((Main)(getEngine().getRoot())).succesfullyFinishedStudents]]></Expression2>
+					<Expression2><![CDATA[((Main)(getEngine().getRoot())).minUtil]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>CIRCLE</PointStyle>
+						<LineWidth>1.0</LineWidth>
+						<HorizontalAxisExpression><![CDATA[getRunCount()+3]]></HorizontalAxisExpression>
+					</DatasetExpression>
+					<DatasetExpression>  
+						<Title><![CDATA[Dataset Title]]></Title>
+					<Expression><![CDATA[my_dataset]]></Expression>
+					<Color>-2354116</Color>
+					<Expression2><![CDATA[(float)((Main)(getEngine().getRoot())).succesfullyFinishedStudents / ((Main)(getEngine().getRoot())).initialStudentsCount]]></Expression2>
 					<Expression2Flag>true</Expression2Flag>
 						<PointStyle>CIRCLE</PointStyle>
 						<LineWidth>1.0</LineWidth>
@@ -4194,13 +4203,13 @@ source1.inject();]]></Code>
 				<Id>1575135674088</Id>
 				<Type>FIXED</Type>
 				<From Class="CodeValue">
-					<Code><![CDATA[90]]></Code>
+					<Code><![CDATA[180]]></Code>
 				</From>
 				<To Class="CodeValue">
-					<Code><![CDATA[180]]></Code>
+					<Code><![CDATA[720]]></Code>
 				</To>
 				<Step Class="CodeValue">
-					<Code><![CDATA[90]]></Code>
+					<Code><![CDATA[30]]></Code>
 				</Step>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
