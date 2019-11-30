@@ -29,14 +29,6 @@ int currentLesson = 0;
 public int succesfullyFinishedStudents = 0;
 public double minUtil = 1.1;
 
-/*
-public int[] teachersCountArray = new int[] {
-	2, 2, 2, 1
-};
-
-teachers.set_capacity(teachersCountArray[0]);
-*/
-
 // lab1, lab2, lab3, lab4
 public int[] studentsCountArray = new int[] {
 	25, 15, 10, 5
@@ -94,7 +86,6 @@ void restartLesson() {
 	currentLessonStudents = Arrays.stream(studentsCountArray).sum();
 	hold.unblock();
 	currentLessonNumLabel.setText(currentLesson + 1);
-	//teachers.set_capacity(teachersCountArray[currentLesson]);
 }
 
 void releaseQueue() {
@@ -251,30 +242,6 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1575135653359</Id>
-					<Name><![CDATA[lessonsCount]]></Name>
-					<X>820</X><Y>450</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[int]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[7]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1575135653357</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
 					<Id>1575135674088</Id>
 					<Name><![CDATA[lessonLength]]></Name>
 					<X>820</X><Y>470</Y>
@@ -291,6 +258,30 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1575135674086</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1575142478736</Id>
+					<Name><![CDATA[lessonsCount]]></Name>
+					<X>820</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[7]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1575142478734</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -369,7 +360,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 				<Connector>
 					<Id>1575123680850</Id>
 					<Name><![CDATA[connector]]></Name>
-					<X>560</X><Y>70</Y>
+					<X>555</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -396,13 +387,13 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-50</X><Y>0</Y></Point>
+						<Point><X>-55</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1575123760466</Id>
 					<Name><![CDATA[connector5]]></Name>
-					<X>600</X><Y>70</Y>
+					<X>595</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -429,13 +420,13 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>30</X><Y>0</Y></Point>
+						<Point><X>25</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1575123760467</Id>
 					<Name><![CDATA[connector6]]></Name>
-					<X>650</X><Y>70</Y>
+					<X>640</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -462,7 +453,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>30</X><Y>0</Y></Point>
+						<Point><X>40</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
@@ -534,7 +525,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 				<Connector>
 					<Id>1575124197820</Id>
 					<Name><![CDATA[connector8]]></Name>
-					<X>560</X><Y>70</Y>
+					<X>555</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -561,16 +552,16 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 					</TargetConnectableItemReference>
 					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-20</X><Y>20</Y></Point>
-						<Point><X>-20</X><Y>50</Y></Point>
-						<Point><X>360</X><Y>50</Y></Point>
-						<Point><X>360</X><Y>10</Y></Point>
+						<Point><X>-15</X><Y>20</Y></Point>
+						<Point><X>-15</X><Y>50</Y></Point>
+						<Point><X>365</X><Y>50</Y></Point>
+						<Point><X>365</X><Y>10</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
 					<Id>1575124469391</Id>
 					<Name><![CDATA[connector9]]></Name>
-					<X>240</X><Y>20</Y>
+					<X>540</X><Y>40</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -596,8 +587,8 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 						<ItemName><![CDATA[in]]></ItemName>
 					</TargetConnectableItemReference>
 					<Points>
-						<Point><X>300</X><Y>20</Y></Point>
-						<Point><X>320</X><Y>50</Y></Point>
+						<Point><X>0</X><Y>0</Y></Point>
+						<Point><X>15</X><Y>30</Y></Point>
 					</Points>
 				</Connector>
 				<Connector>
@@ -770,7 +761,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 				<EmbeddedObject>
 					<Id>1574660896106</Id>
 					<Name><![CDATA[toggleSource]]></Name>
-					<X>460</X><Y>50</Y>
+					<X>450</X><Y>50</Y>
 					<Label><X>0</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -865,7 +856,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 					<Label><X>-5</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
+					<ShowLabel>false</ShowLabel>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
 						<ClassName><![CDATA[Queue]]></ClassName>
@@ -991,7 +982,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 					<Label><X>-5</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
+					<ShowLabel>false</ShowLabel>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
 						<ClassName><![CDATA[Delay]]></ClassName>
@@ -1183,11 +1174,11 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 				<EmbeddedObject>
 					<Id>1575123679444</Id>
 					<Name><![CDATA[buffer]]></Name>
-					<X>560</X><Y>50</Y>
+					<X>555</X><Y>50</Y>
 					<Label><X>-5</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
+					<ShowLabel>false</ShowLabel>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
 						<ClassName><![CDATA[Queue]]></ClassName>
@@ -1294,11 +1285,11 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 				<EmbeddedObject>
 					<Id>1575123758694</Id>
 					<Name><![CDATA[hold]]></Name>
-					<X>630</X><Y>60</Y>
+					<X>620</X><Y>60</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
+					<ShowLabel>false</ShowLabel>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
 						<ClassName><![CDATA[Hold]]></ClassName>
@@ -1466,7 +1457,7 @@ if (currentLessonStudents == 0) {
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
+					<ShowLabel>false</ShowLabel>
 					<ActiveObjectClass>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
 						<ClassName><![CDATA[Enter]]></ClassName>
@@ -1897,7 +1888,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575129512581</Id>
 					<Name><![CDATA[text1]]></Name>
-					<X>460</X><Y>160</Y>
+					<X>20</X><Y>180</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1918,7 +1909,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575129575912</Id>
 					<Name><![CDATA[succesfullyFinishedLabel]]></Name>
-					<X>630</X><Y>160</Y>
+					<X>190</X><Y>180</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1939,7 +1930,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575130191358</Id>
 					<Name><![CDATA[text2]]></Name>
-					<X>460</X><Y>190</Y>
+					<X>20</X><Y>210</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1960,7 +1951,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575130327119</Id>
 					<Name><![CDATA[minUtilLabel]]></Name>
-					<X>800</X><Y>190</Y>
+					<X>360</X><Y>210</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1981,7 +1972,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575131392764</Id>
 					<Name><![CDATA[text3]]></Name>
-					<X>110</X><Y>50</Y>
+					<X>20</X><Y>50</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2002,7 +1993,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575131428675</Id>
 					<Name><![CDATA[text4]]></Name>
-					<X>110</X><Y>80</Y>
+					<X>20</X><Y>80</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2023,7 +2014,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575131457246</Id>
 					<Name><![CDATA[text5]]></Name>
-					<X>110</X><Y>110</Y>
+					<X>20</X><Y>110</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2044,7 +2035,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575131477907</Id>
 					<Name><![CDATA[numLessonsLabel]]></Name>
-					<X>330</X><Y>50</Y>
+					<X>240</X><Y>50</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2065,7 +2056,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575131519350</Id>
 					<Name><![CDATA[numTeachersLabel]]></Name>
-					<X>420</X><Y>80</Y>
+					<X>330</X><Y>80</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2086,7 +2077,7 @@ if (currentLessonStudents == 0) {
 				<Text>
 					<Id>1575131533994</Id>
 					<Name><![CDATA[lessonLengthLabel]]></Name>
-					<X>350</X><Y>110</Y>
+					<X>260</X><Y>110</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2103,6 +2094,113 @@ if (currentLessonStudents == 0) {
 						<Style>0</Style>
 					</Font>
 					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575141913177</Id>
+					<Name><![CDATA[text6]]></Name>
+					<X>680</X><Y>40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Очередь]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575141972060</Id>
+					<Name><![CDATA[text7]]></Name>
+					<X>750</X><Y>40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Преподаватели]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575142016537</Id>
+					<Name><![CDATA[text8]]></Name>
+					<X>920</X><Y>30</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Успешная
+сдача]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<Text>
+					<Id>1575142214771</Id>
+					<Name><![CDATA[text9]]></Name>
+					<X>880</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Отправление на 
+доподготовку]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<Text>
+					<Id>1575142311262</Id>
+					<Name><![CDATA[text10]]></Name>
+					<X>640</X><Y>120</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Доподготовка]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
 				</Text>
 			</Presentation>
 
@@ -3782,10 +3880,10 @@ source1.inject();]]></Code>
 					<ParameterName><![CDATA[teachersCount]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[lessonsCount]]></ParameterName>
+					<ParameterName><![CDATA[lessonLength]]></ParameterName>
 				</Parameter>
 				<Parameter>
-					<ParameterName><![CDATA[lessonLength]]></ParameterName>
+					<ParameterName><![CDATA[lessonsCount]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
@@ -4168,10 +4266,10 @@ source1.inject();]]></Code>
 				<Id>1575135611186</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
-				<Id>1575135653359</Id>
+				<Id>1575135674088</Id>
 			</FreeformParamValue>
 			<FreeformParamValue>	
-				<Id>1575135674088</Id>
+				<Id>1575142478736</Id>
 			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1575135611186</Id>
@@ -4181,19 +4279,6 @@ source1.inject();]]></Code>
 				</From>
 				<To Class="CodeValue">
 					<Code><![CDATA[3]]></Code>
-				</To>
-				<Step Class="CodeValue">
-					<Code><![CDATA[1]]></Code>
-				</Step>
-			</RangeVariationParamValue>
-			<RangeVariationParamValue>	
-				<Id>1575135653359</Id>
-				<Type>RANGE</Type>
-				<From Class="CodeValue">
-					<Code><![CDATA[3]]></Code>
-				</From>
-				<To Class="CodeValue">
-					<Code><![CDATA[13]]></Code>
 				</To>
 				<Step Class="CodeValue">
 					<Code><![CDATA[1]]></Code>
@@ -4211,6 +4296,10 @@ source1.inject();]]></Code>
 				<Step Class="CodeValue">
 					<Code><![CDATA[30]]></Code>
 				</Step>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1575142478736</Id>
+				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Never]]></StopOption>
