@@ -16,19 +16,33 @@
 		<ActiveObjectClass>
 			<Id>1574319728379</Id>
 			<Name><![CDATA[Main]]></Name>
-			<AdditionalClassCode><![CDATA[String defaultStudentsCount = "50";
-String defaultTeachersCount = "3";
-boolean workState = false;
+			<AdditionalClassCode><![CDATA[int teachersCount = 3;
+int studentsCount = 50;
 
-int teachersCount = Integer.parseInt(defaultTeachersCount);
+//static String defaultStudentsCount = Integer
+//		.toString(studentsCount);
+//static String defaultTeachersCount = Integer
+//		.toString(teachersCount);
 
-int[] studentCount = new int[]
-	{
-		Integer.parseInt(defaultStudentsCount),
-		Integer.parseInt(defaultStudentsCount),
-		Integer.parseInt(defaultStudentsCount),
-		Integer.parseInt(defaultStudentsCount)
-	};]]></AdditionalClassCode>
+public int[] studentsCountArray = new int[]{
+		studentsCount,
+		studentsCount,
+		studentsCount,
+		studentsCount};
+		
+int getNextStudentLabNumber() {
+	int labNum = new Random().nextInt(4);
+	while (studentsCountArray[labNum] == 0) {
+		labNum = new Random().nextInt(4);
+	}
+	return labNum;
+}
+
+void processStudent(Agent student) {
+	studentsCountArray[((Student)student).labNumber]--;
+	if (((Student)student).labNumber == 3) return;
+	studentsCountArray[((Student)student).labNumber + 1]++;
+}]]></AdditionalClassCode>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -122,11 +136,53 @@ int[] studentCount = new int[]
 			</ScaleRuler>
 			<CurrentLevel>1574319728378</CurrentLevel>
 			<ConnectionsId>1574319728374</ConnectionsId>
+			<Outputs>
+				<Output>
+					<Id>1574960624881</Id>
+					<Name><![CDATA[agentsGenerated]]></Name>
+					<X>350</X><Y>80</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Type><![CDATA[int]]></Type>
+					<UnitType><![CDATA[NONE]]></UnitType>
+					<Value Class="CodeValue">
+						<Code><![CDATA[toggleSource.agentsGenerated]]></Code>
+					</Value>
+					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
+					<ComputationTimeCode Class="CodeUnitValue">
+						<Code><![CDATA[]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</ComputationTimeCode>
+					<ComputationDate>1575014400000</ComputationDate>
+				</Output>
+				<Output>
+					<Id>1575112675739</Id>
+					<Name><![CDATA[output]]></Name>
+					<X>450</X><Y>250</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Type><![CDATA[double]]></Type>
+					<UnitType><![CDATA[NONE]]></UnitType>
+					<Value Class="CodeValue">
+						<Code><![CDATA[studentsCountArray[0]]]></Code>
+					</Value>
+					<ComputationMoment>AT_MODEL_TIME</ComputationMoment>
+					<ComputationTimeCode Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</ComputationTimeCode>
+					<ComputationDate>1575187200000</ComputationDate>
+				</Output>
+			</Outputs>
 			<Connectors>
 				<Connector>
-					<Id>1574660896359</Id>
-					<Name><![CDATA[connector4]]></Name>
-					<X>530</X><Y>50</Y>
+					<Id>1575111610081</Id>
+					<Name><![CDATA[connector]]></Name>
+					<X>0</X><Y>0</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -134,11 +190,11 @@ int[] studentCount = new int[]
 					<SourceEmbeddedObjectReference>
 						<PackageName><![CDATA[pip3]]></PackageName>
 						<ClassName><![CDATA[Main]]></ClassName>
-						<ItemName><![CDATA[sink]]></ItemName>
+						<ItemName><![CDATA[queue]]></ItemName>
 					</SourceEmbeddedObjectReference>
 					<SourceConnectableItemReference>
 						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
-						<ClassName><![CDATA[Sink]]></ClassName>
+						<ClassName><![CDATA[Queue]]></ClassName>
 						<ItemName><![CDATA[in]]></ItemName>
 					</SourceConnectableItemReference>
 					<TargetEmbeddedObjectReference>
@@ -152,8 +208,41 @@ int[] studentCount = new int[]
 						<ItemName><![CDATA[port]]></ItemName>
 					</TargetConnectableItemReference>
 					<Points>
+						<Point><X>440</X><Y>50</Y></Point>
+						<Point><X>390</X><Y>50</Y></Point>
+					</Points>
+				</Connector>
+				<Connector>
+					<Id>1575111616142</Id>
+					<Name><![CDATA[connector1]]></Name>
+					<X>480</X><Y>50</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<SourceEmbeddedObjectReference>
+						<PackageName><![CDATA[pip3]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[queue]]></ItemName>
+					</SourceEmbeddedObjectReference>
+					<SourceConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Queue]]></ClassName>
+						<ItemName><![CDATA[out]]></ItemName>
+					</SourceConnectableItemReference>
+					<TargetEmbeddedObjectReference>
+						<PackageName><![CDATA[pip3]]></PackageName>
+						<ClassName><![CDATA[Main]]></ClassName>
+						<ItemName><![CDATA[sink]]></ItemName>
+					</TargetEmbeddedObjectReference>
+					<TargetConnectableItemReference>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Sink]]></ClassName>
+						<ItemName><![CDATA[in]]></ItemName>
+					</TargetConnectableItemReference>
+					<Points>
 						<Point><X>0</X><Y>0</Y></Point>
-						<Point><X>-30</X><Y>0</Y></Point>
+						<Point><X>50</X><Y>0</Y></Point>
 					</Points>
 				</Connector>
 			</Connectors>
@@ -205,6 +294,10 @@ int[] studentCount = new int[]
 					<Parameters>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[update_agentsGenerated();
+processStudent(agent);]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[destroyEntity]]></Name>
@@ -252,7 +345,7 @@ int[] studentCount = new int[]
 				<EmbeddedObject>
 					<Id>1574660896106</Id>
 					<Name><![CDATA[toggleSource]]></Name>
-					<X>450</X><Y>30</Y>
+					<X>340</X><Y>30</Y>
 					<Label><X>0</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -287,14 +380,11 @@ int[] studentCount = new int[]
 						<Parameter>
 							<Name><![CDATA[agentsCount]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[this.studentCount[0] + this.studentCount[1] + this.studentCount[2] + this.studentCount[3]]]></Code>
+								<Code><![CDATA[100]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[Timeout]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[60]]></Code>
-							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[timeoutReached]]></Name>
@@ -306,6 +396,126 @@ int[] studentCount = new int[]
 					</Replication>
 					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<InEnvironment>true</InEnvironment>	
+					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LatitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LatitudeCode>
+					<LongitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LongitudeCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+				<EmbeddedObject>
+					<Id>1575111535346</Id>
+					<Name><![CDATA[queue]]></Name>
+					<X>440</X><Y>30</Y>
+					<Label><X>-5</X><Y>-15</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+						<ClassName><![CDATA[Queue]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[com.anylogic.libraries.processmodeling]]></PackageName>
+							<ClassName><![CDATA[Queue]]></ClassName>
+							<ItemName><![CDATA[1412336242932]]></ItemName>
+						</GenericParameterSubstituteReference>
+						<GenericParameterSubstituteValue Class="CodeValue">
+							<Code><![CDATA[Student]]></Code>
+						</GenericParameterSubstituteValue>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[capacity]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[maximumCapacity]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[entityLocation]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[queuing]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[self.QUEUING_PRIORITY]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[priority]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[3 - agent.labNumber]]></Code>
+							</Value>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[comparison]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[enableTimeout]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[timeout]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[enablePreemption]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[restoreEntityLocationOnExit]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[forceStatisticsCollection]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onEnter]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onAtExit]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExit]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExitTimeout]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onExitPreempted]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[onRemove]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
 					<XCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
@@ -356,105 +566,6 @@ int[] studentCount = new int[]
 					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
 
 			<Presentation>
-				<Control Type="EditBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1574319888872</Id>
-					<Name><![CDATA[InitLab1]]></Name>
-					<X>260</X><Y>40</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<FillColor/>
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[this.studentCount[0] = InitLab1.getIntValue();
-studentsLabInfo.updateData();]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<DefaultValueCode><![CDATA[this.defaultStudentsCount]]></DefaultValueCode>
-						<LinkTo>false</LinkTo>
-					</ExtendedProperties>
-				</Control>
-				<Control Type="EditBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1574319931549</Id>
-					<Name><![CDATA[InitLab2]]></Name>
-					<X>260</X><Y>80</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<FillColor/>
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[this.studentCount[1] = InitLab2.getIntValue();
-studentsLabInfo.updateData();]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<DefaultValueCode><![CDATA[this.defaultStudentsCount]]></DefaultValueCode>
-						<LinkTo>false</LinkTo>
-						<Link>this.studentCount[1]</Link>
-					</ExtendedProperties>
-				</Control>
-				<Control Type="EditBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1574319949907</Id>
-					<Name><![CDATA[InitLab3]]></Name>
-					<X>260</X><Y>120</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<FillColor/>
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[this.studentCount[2] = InitLab3.getIntValue();
-studentsLabInfo.updateData();]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<DefaultValueCode><![CDATA[this.defaultStudentsCount]]></DefaultValueCode>
-						<LinkTo>false</LinkTo>
-						<Link>this.studentCount[2]</Link>
-					</ExtendedProperties>
-				</Control>
-				<Control Type="EditBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1574319967315</Id>
-					<Name><![CDATA[InitLab4]]></Name>
-					<X>260</X><Y>160</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<FillColor/>
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[this.studentCount[3] = InitLab4.getIntValue();
-studentsLabInfo.updateData();]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<DefaultValueCode><![CDATA[this.defaultStudentsCount]]></DefaultValueCode>
-						<LinkTo>false</LinkTo>
-						<Link>this.studentCount[3]</Link>
-					</ExtendedProperties>
-				</Control>
     			<BarChart>
 					<Id>1574320939997</Id>
 					<Name><![CDATA[studentsLabInfo]]></Name>
@@ -473,7 +584,7 @@ studentsLabInfo.updateData();]]></ActionCode>
 					</OccurrenceTime>
 					<RecurrenceCode Class="CodeUnitValue">
 						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						<Unit Class="TimeUnits"><![CDATA[MILLISECOND]]></Unit>
 					</RecurrenceCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Width>420</Width>
@@ -501,25 +612,25 @@ studentsLabInfo.updateData();]]></ActionCode>
 					</Labels>
 					<ShowLegend>true</ShowLegend>
 					<DataItem>
-					<Expression><![CDATA[this.studentCount[0]]]></Expression>
+					<Expression><![CDATA[studentsCountArray[0]]]></Expression>
 					<Color>-14774017</Color>
 					<Expression2Flag>true</Expression2Flag>
 						<Title><![CDATA[Лаба 1]]></Title>
 					</DataItem>
 					<DataItem>
-					<Expression><![CDATA[this.studentCount[1]]]></Expression>
+					<Expression><![CDATA[studentsCountArray[1]]]></Expression>
 					<Color>-14774017</Color>
 					<Expression2Flag>true</Expression2Flag>
 						<Title><![CDATA[Лаба 2]]></Title>
 					</DataItem>
 					<DataItem>
-					<Expression><![CDATA[this.studentCount[2]]]></Expression>
+					<Expression><![CDATA[studentsCountArray[2]]]></Expression>
 					<Color>-14774017</Color>
 					<Expression2Flag>true</Expression2Flag>
 						<Title><![CDATA[Лаба 3]]></Title>
 					</DataItem>
 					<DataItem>
-					<Expression><![CDATA[this.studentCount[3]]]></Expression>
+					<Expression><![CDATA[studentsCountArray[3]]]></Expression>
 					<Color>-14774017</Color>
 					<Expression2Flag>true</Expression2Flag>
 						<Title><![CDATA[Лаба 4]]></Title>
@@ -706,51 +817,6 @@ studentsLabInfo.updateData();]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-				<Control Type="EditBox">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1574323410286</Id>
-					<Name><![CDATA[initTeachersCount]]></Name>
-					<X>260</X><Y>210</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="30" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<FillColor/>
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[this.teachersCount = initTeachersCount.getIntValue();]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<DefaultValueCode><![CDATA[this.defaultTeachersCount]]></DefaultValueCode>
-						<LinkTo>false</LinkTo>
-						<Link>this.studentCount[3]</Link>
-					</ExtendedProperties>
-				</Control>
-				<Control Type="Button">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1574323929632</Id>
-					<Name><![CDATA[button]]></Name>
-					<X>450</X><Y>80</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="100" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[this.workState = !this.workState;]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<LabelText><![CDATA[Поехали!]]></LabelText>
-					</ExtendedProperties>
-				</Control>
 			</Presentation>
 
 				</Level>
@@ -872,6 +938,7 @@ studentsLabInfo.updateData();]]></ActionCode>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>0</Id>
+							<Label><![CDATA[labNumber]]></Label>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -1371,6 +1438,38 @@ studentsLabInfo.updateData();]]></ActionCode>
 					</Points>
 				</Connector>
 			</Connectors>
+			<Events>
+				<Event>
+					<Id>1575112976950</Id>
+					<Name><![CDATA[onTimeoutReached]]></Name>
+					<X>50</X><Y>300</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties TriggerType="condition" Mode="occuresOnce">
+						<Timeout Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</Timeout>
+						<Rate Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="RateUnits"><![CDATA[PER_SECOND]]></Unit>
+						</Rate>
+						<OccurrenceAtTime>true</OccurrenceAtTime>
+						<OccurrenceDate>1575187200000</OccurrenceDate>
+						<OccurrenceTime Class="CodeUnitValue">
+							<Code><![CDATA[0]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</OccurrenceTime>
+						<RecurrenceCode Class="CodeUnitValue">
+							<Code><![CDATA[1]]></Code>
+							<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+						</RecurrenceCode>
+						<Condition><![CDATA[this.timeoutReached]]></Condition>
+					</Properties>
+				</Event>
+			</Events>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1574660887625</Id>
@@ -1579,6 +1678,9 @@ studentsLabInfo.updateData();]]></ActionCode>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onExit]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[agent.labNumber = main.getNextStudentLabNumber();]]></Code>
+							</Value>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[onDiscard]]></Name>
