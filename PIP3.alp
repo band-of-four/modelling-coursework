@@ -19,9 +19,11 @@
 			<AdditionalClassCode><![CDATA[Random rand = new Random();
 
 int teachersCount = 3;
-int lessonsCount = 3;
+int lessonsCount = 7;
 int currentLesson = 0;
 int succesfullyFinishedStudents = 0;
+double minUtil = 1.1;
+
 /*
 public int[] teachersCountArray = new int[] {
 	2, 2, 2, 1
@@ -36,13 +38,14 @@ public int[] studentsCountArray = new int[] {
 };
 public int[] remainingStudentsArray = studentsCountArray.clone();
 public double[] labsPassingMean = new double[] {
-	10.0, 20.0, 25.0, 30.0
+	5.0, 10.0, 12.5, 15.0
 };
 public double[] labsSuccesfullPassingProp = new double[] {
 	0.8, 0.60, 0.5, 0.4
 };
 
 int currentLessonStudents = Arrays.stream(studentsCountArray).sum();
+int initialStudentsCount = currentLessonStudents;
 
 int getNextStudentLabNumber() {
 	if (Arrays.stream(remainingStudentsArray).sum() == 0) return 0;
@@ -59,7 +62,7 @@ void processStudent(Agent student) {
 		succesfullyFinishedStudents++;
 		studentsCountArray[((Student)student).labNumber]--;
 		studentsLabInfo.updateData();
-		update_succesfullyFinished();
+		succesfullyFinishedLabel.setText(String.format("%d/%d, %.2f%%", succesfullyFinishedStudents, initialStudentsCount, ((float)succesfullyFinishedStudents / initialStudentsCount) * 100));
 		return;
 	};
 	studentsCountArray[((Student)student).labNumber]--;
@@ -72,6 +75,11 @@ void restartLesson() {
 	if (currentLesson == lessonsCount) {
 		 getEngine().finish();
 	}
+	double util = teachers.statsUtilization.mean();
+	if (util < minUtil) {
+		minUtilLabel.setText(String.format("%.3f, на занятии %d", util, currentLesson + 1));
+		minUtil = util;
+	}
 	teachersUtil.updateData();
 	releaseQueue();
 	releaseTeachers();
@@ -80,7 +88,7 @@ void restartLesson() {
 	remainingStudentsArray = studentsCountArray.clone();
 	currentLessonStudents = Arrays.stream(studentsCountArray).sum();
 	hold.unblock();
-	
+	currentLessonNumLabel.setText(currentLesson + 1);
 	//teachers.set_capacity(teachersCountArray[currentLesson]);
 }
 
@@ -209,73 +217,11 @@ double hyper() {
 			</ScaleRuler>
 			<CurrentLevel>1574319728378</CurrentLevel>
 			<ConnectionsId>1574319728374</ConnectionsId>
-			<Outputs>
-				<Output>
-					<Id>1574960624881</Id>
-					<Name><![CDATA[agentsGenerated]]></Name>
-					<X>580</X><Y>250</Y>
-					<Label><X>15</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Type><![CDATA[int]]></Type>
-					<UnitType><![CDATA[NONE]]></UnitType>
-					<Value Class="CodeValue">
-						<Code><![CDATA[toggleSource.agentsGenerated]]></Code>
-					</Value>
-					<ComputationMoment>ON_SIMULATION_END</ComputationMoment>
-					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
-					</ComputationTimeCode>
-					<ComputationDate>1575014400000</ComputationDate>
-				</Output>
-				<Output>
-					<Id>1575117883375</Id>
-					<Name><![CDATA[succesfullyFinished]]></Name>
-					<X>340</X><Y>280</Y>
-					<Label><X>15</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Type><![CDATA[int]]></Type>
-					<UnitType><![CDATA[NONE]]></UnitType>
-					<Value Class="CodeValue">
-						<Code><![CDATA[succesfullyFinishedStudents]]></Code>
-					</Value>
-					<ComputationMoment>MANUALLY</ComputationMoment>
-					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
-					</ComputationTimeCode>
-					<ComputationDate>1575187200000</ComputationDate>
-				</Output>
-				<Output>
-					<Id>1575122647438</Id>
-					<Name><![CDATA[currentStudentLab]]></Name>
-					<X>560</X><Y>140</Y>
-					<Label><X>15</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Type><![CDATA[double]]></Type>
-					<UnitType><![CDATA[NONE]]></UnitType>
-					<Value Class="CodeValue">
-						<Code><![CDATA[teachers.get(0).labNumber + 1]]></Code>
-					</Value>
-					<ComputationMoment>MANUALLY</ComputationMoment>
-					<ComputationTimeCode Class="CodeUnitValue">
-						<Code><![CDATA[]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
-					</ComputationTimeCode>
-					<ComputationDate>1575187200000</ComputationDate>
-				</Output>
-			</Outputs>
 			<Connectors>
 				<Connector>
 					<Id>1575114814232</Id>
 					<Name><![CDATA[connector1]]></Name>
-					<X>0</X><Y>0</Y>
+					<X>240</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -308,7 +254,7 @@ double hyper() {
 				<Connector>
 					<Id>1575121261310</Id>
 					<Name><![CDATA[connector3]]></Name>
-					<X>630</X><Y>50</Y>
+					<X>870</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -341,7 +287,7 @@ double hyper() {
 				<Connector>
 					<Id>1575123680850</Id>
 					<Name><![CDATA[connector]]></Name>
-					<X>320</X><Y>50</Y>
+					<X>560</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -374,7 +320,7 @@ double hyper() {
 				<Connector>
 					<Id>1575123760466</Id>
 					<Name><![CDATA[connector5]]></Name>
-					<X>360</X><Y>50</Y>
+					<X>600</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -407,7 +353,7 @@ double hyper() {
 				<Connector>
 					<Id>1575123760467</Id>
 					<Name><![CDATA[connector6]]></Name>
-					<X>410</X><Y>50</Y>
+					<X>650</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -440,7 +386,7 @@ double hyper() {
 				<Connector>
 					<Id>1575124137955</Id>
 					<Name><![CDATA[connector2]]></Name>
-					<X>0</X><Y>0</Y>
+					<X>240</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -473,7 +419,7 @@ double hyper() {
 				<Connector>
 					<Id>1575124137956</Id>
 					<Name><![CDATA[connector7]]></Name>
-					<X>0</X><Y>0</Y>
+					<X>240</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -506,7 +452,7 @@ double hyper() {
 				<Connector>
 					<Id>1575124197820</Id>
 					<Name><![CDATA[connector8]]></Name>
-					<X>320</X><Y>50</Y>
+					<X>560</X><Y>70</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -542,7 +488,7 @@ double hyper() {
 				<Connector>
 					<Id>1575124469391</Id>
 					<Name><![CDATA[connector9]]></Name>
-					<X>0</X><Y>0</Y>
+					<X>240</X><Y>20</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -575,7 +521,7 @@ double hyper() {
 				<Connector>
 					<Id>1575125741009</Id>
 					<Name><![CDATA[connector4]]></Name>
-					<X>640</X><Y>60</Y>
+					<X>880</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -611,7 +557,7 @@ double hyper() {
 				<Connector>
 					<Id>1575125743191</Id>
 					<Name><![CDATA[connector10]]></Name>
-					<X>410</X><Y>80</Y>
+					<X>650</X><Y>100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -670,7 +616,7 @@ double hyper() {
 				<EmbeddedObject>
 					<Id>1574323913366</Id>
 					<Name><![CDATA[sink]]></Name>
-					<X>710</X><Y>40</Y>
+					<X>950</X><Y>60</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -693,8 +639,7 @@ double hyper() {
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[update_agentsGenerated();
-processStudent(agent);]]></Code>
+								<Code><![CDATA[processStudent(agent);]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -743,7 +688,7 @@ processStudent(agent);]]></Code>
 				<EmbeddedObject>
 					<Id>1574660896106</Id>
 					<Name><![CDATA[toggleSource]]></Name>
-					<X>220</X><Y>30</Y>
+					<X>460</X><Y>50</Y>
 					<Label><X>0</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -784,7 +729,7 @@ processStudent(agent);]]></Code>
 						<Parameter>
 							<Name><![CDATA[Timeout]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[150]]></Code>
+								<Code><![CDATA[180]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -834,7 +779,7 @@ processStudent(agent);]]></Code>
 				<EmbeddedObject>
 					<Id>1575111535346</Id>
 					<Name><![CDATA[queue]]></Name>
-					<X>440</X><Y>30</Y>
+					<X>680</X><Y>50</Y>
 					<Label><X>-5</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -960,7 +905,7 @@ processStudent(agent);]]></Code>
 				<EmbeddedObject>
 					<Id>1575114805722</Id>
 					<Name><![CDATA[teachers]]></Name>
-					<X>530</X><Y>30</Y>
+					<X>770</X><Y>50</Y>
 					<Label><X>-5</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1014,8 +959,7 @@ processStudent(agent);]]></Code>
 						<Parameter>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[update_currentStudentLab();
-agent.triesAmount++;]]></Code>
+								<Code><![CDATA[agent.triesAmount++;]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -1070,7 +1014,7 @@ agent.triesAmount++;]]></Code>
 				<EmbeddedObject>
 					<Id>1575121259181</Id>
 					<Name><![CDATA[selectOutput]]></Name>
-					<X>620</X><Y>40</Y>
+					<X>860</X><Y>60</Y>
 					<Label><X>-35</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1157,7 +1101,7 @@ agent.triesAmount++;]]></Code>
 				<EmbeddedObject>
 					<Id>1575123679444</Id>
 					<Name><![CDATA[buffer]]></Name>
-					<X>320</X><Y>30</Y>
+					<X>560</X><Y>50</Y>
 					<Label><X>-5</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1268,7 +1212,7 @@ agent.triesAmount++;]]></Code>
 				<EmbeddedObject>
 					<Id>1575123758694</Id>
 					<Name><![CDATA[hold]]></Name>
-					<X>390</X><Y>40</Y>
+					<X>630</X><Y>60</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1301,7 +1245,6 @@ agent.triesAmount++;]]></Code>
 							<Name><![CDATA[onEnter]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[currentLessonStudents--;
-System.out.println(currentLessonStudents);
 if (currentLessonStudents == 0) {
 	hold.block();
 }]]></Code>
@@ -1350,7 +1293,7 @@ if (currentLessonStudents == 0) {
 				<EmbeddedObject>
 					<Id>1575124136373</Id>
 					<Name><![CDATA[selectOutput1]]></Name>
-					<X>660</X><Y>40</Y>
+					<X>900</X><Y>60</Y>
 					<Label><X>-35</X><Y>-25</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1437,7 +1380,7 @@ if (currentLessonStudents == 0) {
 				<EmbeddedObject>
 					<Id>1575124442474</Id>
 					<Name><![CDATA[bufferEnter]]></Name>
-					<X>280</X><Y>10</Y>
+					<X>520</X><Y>30</Y>
 					<Label><X>-10</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1569,7 +1512,7 @@ if (currentLessonStudents == 0) {
 				<EmbeddedObject>
 					<Id>1575125726537</Id>
 					<Name><![CDATA[prep]]></Name>
-					<X>370</X><Y>60</Y>
+					<X>610</X><Y>80</Y>
 					<Label><X>-5</X><Y>-15</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1820,13 +1763,139 @@ if (currentLessonStudents == 0) {
 					<Expression2Flag>true</Expression2Flag>
 						<PointStyle>CIRCLE</PointStyle>
 						<LineWidth>1.0</LineWidth>
-						<HorizontalAxisExpression><![CDATA[this.currentLesson]]></HorizontalAxisExpression>
+						<HorizontalAxisExpression><![CDATA[this.currentLesson + 1]]></HorizontalAxisExpression>
 					</DatasetExpression>
 					<SamplesToKeep>100</SamplesToKeep>
 					<HorScaleFromExpression><![CDATA[0]]></HorScaleFromExpression>
 					<HorScaleToExpression><![CDATA[1]]></HorScaleToExpression>
 					<HorScaleType>AUTO</HorScaleType>
     			</Plot>
+				<Text>
+					<Id>1575128999430</Id>
+					<Name><![CDATA[text]]></Name>
+					<X>10</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Занятие №]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>28</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575129269237</Id>
+					<Name><![CDATA[currentLessonNumLabel]]></Name>
+					<X>160</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[1]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>28</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575129512581</Id>
+					<Name><![CDATA[text1]]></Name>
+					<X>30</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Успешно сдали:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>22</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575129575912</Id>
+					<Name><![CDATA[succesfullyFinishedLabel]]></Name>
+					<X>200</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[0]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575130191358</Id>
+					<Name><![CDATA[text2]]></Name>
+					<X>30</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Минимальная загрузка системы:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>22</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575130327119</Id>
+					<Name><![CDATA[minUtilLabel]]></Name>
+					<X>370</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[--]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>22</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
 			</Presentation>
 
 				</Level>
