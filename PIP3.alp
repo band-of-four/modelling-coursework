@@ -29,20 +29,27 @@ int currentLesson = 0;
 public int succesfullyFinishedStudents = 0;
 public double minUtil = 1.1;
 
+int currentLessonStudents;
+int initialStudentsCount;
+
+int[] studentsCountArray = new int[] { 0, 0, 0, 0 };
+
+void setupStudentsCountArray() {
+	studentsCountArray[0] = (int)((25.0/55.0) * studentCount);
+	System.out.println(studentsCountArray[0]);
+	studentsCountArray[1] = (int)((15.0/55.0) * studentCount);
+	studentsCountArray[2] = (int)((10.0/55.0) * studentCount);
+	studentsCountArray[3] = (int)((5.0/55.0) * studentCount);
+}
+
 // lab1, lab2, lab3, lab4
-public int[] studentsCountArray = new int[] {
-	25, 15, 10, 5
-};
-public int[] remainingStudentsArray = studentsCountArray.clone();
+public int[] remainingStudentsArray;
 public double[] labsPassingMean = new double[] {
 	5.0, 10.0, 12.5, 15.0
 };
 public double[] labsSuccesfullPassingProp = new double[] {
 	0.8, 0.60, 0.5, 0.4
 };
-
-int currentLessonStudents = Arrays.stream(studentsCountArray).sum();
-int initialStudentsCount = currentLessonStudents;
 
 int getNextStudentLabNumber() {
 	if (Arrays.stream(remainingStudentsArray).sum() == 0) return 0;
@@ -120,9 +127,14 @@ double hyper() {
 		: exponential(1/10.63);
 }]]></AdditionalClassCode>
 			<ClientAreaTopLeft><X>0</X><Y>0</Y></ClientAreaTopLeft>
-			<StartupCode><![CDATA[studentsLabInfo.updateData();
+			<StartupCode><![CDATA[setupStudentsCountArray();
+studentsLabInfo.updateData();
+toggleSource.agentsCount = Arrays.stream(studentsCountArray).sum();
+currentLessonStudents = Arrays.stream(studentsCountArray).sum();
+initialStudentsCount = currentLessonStudents;
 numLessonsLabel.setText(lessonsCount);
 numTeachersLabel.setText(teachersCount);
+remainingStudentsArray = studentsCountArray.clone();
 lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -282,6 +294,30 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1575142478734</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1575234560941</Id>
+					<Name><![CDATA[studentCount]]></Name>
+					<X>820</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="false" ModificatorType="STATIC">
+						<Type><![CDATA[int]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[55]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1575234560939</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
 							<MinSliderValue><![CDATA[0]]></MinSliderValue>
 							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
@@ -796,7 +832,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 						<Parameter>
 							<Name><![CDATA[agentsCount]]></Name>
 							<Value Class="CodeValue">
-								<Code><![CDATA[Arrays.stream(studentsCountArray).sum()]]></Code>
+								<Code><![CDATA[0]]></Code>
 							</Value>
 						</Parameter>
 						<Parameter>
@@ -3885,6 +3921,9 @@ source1.inject();]]></Code>
 				<Parameter>
 					<ParameterName><![CDATA[lessonsCount]]></ParameterName>
 				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[studentCount]]></ParameterName>
+				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
@@ -4271,6 +4310,9 @@ source1.inject();]]></Code>
 			<FreeformParamValue>	
 				<Id>1575142478736</Id>
 			</FreeformParamValue>
+			<FreeformParamValue>	
+				<Id>1575234560941</Id>
+			</FreeformParamValue>
 			<RangeVariationParamValue>	
 				<Id>1575135611186</Id>
 				<Type>FIXED</Type>
@@ -4299,6 +4341,10 @@ source1.inject();]]></Code>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1575142478736</Id>
+				<Type>FIXED</Type>
+			</RangeVariationParamValue>
+			<RangeVariationParamValue>	
+				<Id>1575234560941</Id>
 				<Type>FIXED</Type>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
