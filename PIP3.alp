@@ -31,12 +31,12 @@ public double minUtil = 1.1;
 
 int currentLessonStudents;
 int initialStudentsCount;
+float effectivenessCriteria;
 
 int[] studentsCountArray = new int[] { 0, 0, 0, 0 };
 
 void setupStudentsCountArray() {
 	studentsCountArray[0] = (int)((25.0/55.0) * studentCount);
-	System.out.println(studentsCountArray[0]);
 	studentsCountArray[1] = (int)((15.0/55.0) * studentCount);
 	studentsCountArray[2] = (int)((10.0/55.0) * studentCount);
 	studentsCountArray[3] = (int)((5.0/55.0) * studentCount);
@@ -77,6 +77,7 @@ void processStudent(Agent student) {
 
 void restartLesson() {
 	if (currentLesson == lessonsCount) {
+		effectivenessCriteria = (float)(minUtil * (float)succesfullyFinishedStudents / initialStudentsCount);
 		getEngine().finish();
 	}
 	double util = teachers.statsUtilization.mean();
@@ -266,7 +267,7 @@ lessonLengthLabel.setText(String.format("%d мин", lessonLength));]]></Startup
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[180]]></Code>
+							<Code><![CDATA[210]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1575135674086</Id>
@@ -4272,30 +4273,62 @@ source1.inject();]]></Code>
 					<DrawLine>true</DrawLine>
 					<Interpolation>LINEAR</Interpolation>
 					<DatasetExpression>  
-						<Title><![CDATA[Dataset Title 1]]></Title>
-					<Expression><![CDATA[my_dataset1]]></Expression>
-					<Color>-4565549</Color>
-					<Expression2><![CDATA[((Main)(getEngine().getRoot())).minUtil]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-						<PointStyle>CIRCLE</PointStyle>
-						<LineWidth>1.0</LineWidth>
-						<HorizontalAxisExpression><![CDATA[getRunCount()+3]]></HorizontalAxisExpression>
-					</DatasetExpression>
-					<DatasetExpression>  
-						<Title><![CDATA[Dataset Title]]></Title>
+						<Title><![CDATA[Критерий эффективности]]></Title>
 					<Expression><![CDATA[my_dataset]]></Expression>
 					<Color>-2354116</Color>
-					<Expression2><![CDATA[(float)((Main)(getEngine().getRoot())).succesfullyFinishedStudents / ((Main)(getEngine().getRoot())).initialStudentsCount]]></Expression2>
+					<Expression2><![CDATA[((Main)(getEngine().getRoot())).effectivenessCriteria]]></Expression2>
 					<Expression2Flag>true</Expression2Flag>
 						<PointStyle>CIRCLE</PointStyle>
 						<LineWidth>1.0</LineWidth>
-						<HorizontalAxisExpression><![CDATA[getRunCount()+3]]></HorizontalAxisExpression>
+						<HorizontalAxisExpression><![CDATA[30+10*getRunCount()]]></HorizontalAxisExpression>
 					</DatasetExpression>
 					<SamplesToKeep>100</SamplesToKeep>
 					<HorScaleFromExpression><![CDATA[0]]></HorScaleFromExpression>
 					<HorScaleToExpression><![CDATA[1]]></HorScaleToExpression>
 					<HorScaleType>AUTO</HorScaleType>
     			</Plot>
+				<Text>
+					<Id>1575271192569</Id>
+					<Name><![CDATA[text10]]></Name>
+					<X>870</X><Y>530</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Количество студентов]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1575271229608</Id>
+					<Name><![CDATA[text11]]></Name>
+					<X>400</X><Y>40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Значение критерия]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>12</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
 			</Presentation>
 
 			<AllowParallelEvaluations>false</AllowParallelEvaluations>
@@ -4329,6 +4362,9 @@ source1.inject();]]></Code>
 			<RangeVariationParamValue>	
 				<Id>1575135674088</Id>
 				<Type>FIXED</Type>
+				<Expression Class="CodeValue">
+					<Code><![CDATA[210]]></Code>
+				</Expression>
 				<From Class="CodeValue">
 					<Code><![CDATA[180]]></Code>
 				</From>
@@ -4345,7 +4381,16 @@ source1.inject();]]></Code>
 			</RangeVariationParamValue>
 			<RangeVariationParamValue>	
 				<Id>1575234560941</Id>
-				<Type>FIXED</Type>
+				<Type>RANGE</Type>
+				<From Class="CodeValue">
+					<Code><![CDATA[30]]></Code>
+				</From>
+				<To Class="CodeValue">
+					<Code><![CDATA[150]]></Code>
+				</To>
+				<Step Class="CodeValue">
+					<Code><![CDATA[10]]></Code>
+				</Step>
 			</RangeVariationParamValue>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Never]]></StopOption>
